@@ -89,7 +89,8 @@ def generate_base_nebula(W=1536, H=1024):
     cx1, cy1 = 744.0, 547.0
     sx,  sy  = 480.0, 380.0
     angle    = -0.1
-    dx = Xg - cx1;  dy = Yg - cy1
+    dx = Xg - cx1
+    dy = Yg - cy1
     rdx = (dx*math.cos(angle) - dy*math.sin(angle)) / sx
     rdy = (dx*math.sin(angle) + dy*math.cos(angle)) / sy
     main_r2    = rdx**2 + rdy**2
@@ -164,7 +165,9 @@ def generate_base_nebula(W=1536, H=1024):
 
     # ── Subtle upper glow ────────────────────────────────────────────────────
     ug  = np.exp(-0.5*((Xg-766)**2/60**2 + (Yg-140)**2/40**2))
-    r += ug * 8;  g += ug * 5;  b += ug * 25
+    r += ug * 8
+    g += ug * 5
+    b += ug * 25
 
     # ── Star-field noise ─────────────────────────────────────────────────────
     print("  Stars …")
@@ -249,9 +252,9 @@ def main():
     print(f"  Reference mean:  {reference.mean(axis=(0,1)).astype(int)}")
     print(f"  Output mean:     {output.mean(axis=(0,1)).astype(int)}")
     print(f"  Mean abs diff:   {diff.mean():.2f} / 255")
-    print(f"  Pixels within  5: {(max_diff < 5 ).sum()/total*100:.1f}%")
-    print(f"  Pixels within 10: {(max_diff < 10).sum()/total*100:.1f}%")
-    print(f"  Pixels within 20: {(max_diff < 20).sum()/total*100:.1f}%")
+    print(f"  Pixels within  5: {((max_diff < 5 ).sum() / total) * 100:.1f}%")
+    print(f"  Pixels within 10: {((max_diff < 10).sum() / total) * 100:.1f}%")
+    print(f"  Pixels within 20: {((max_diff < 20).sum() / total) * 100:.1f}%")
     print(f"─────────────────────────────────────────────────────────")
 
     Image.fromarray(output, "RGB").save(out_path)
