@@ -24,7 +24,7 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email already registered' }, { status: 409 })
     }
 
-    // Hash password with bcrypt (cost factor 12)
+    // Hash password with bcrypt (12 rounds)
     const passwordHash = await bcrypt.hash(password, 12)
 
     const id = uuidv4()
