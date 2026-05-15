@@ -21,6 +21,8 @@ export default function DashboardSidebar() {
     await fetch('/api/auth/logout', { method: 'POST' })
     localStorage.removeItem('live31_brand')
     localStorage.removeItem('live31_user')
+    // Clear session cookie as a client-side fallback
+    document.cookie = 'live31_session=; Max-Age=0; path=/'
     router.push('/login')
   }
 
