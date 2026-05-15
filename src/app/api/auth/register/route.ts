@@ -1,6 +1,7 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
 import { v4 as uuidv4 } from 'uuid'
+import bcrypt from 'bcryptjs'
 
 export async function POST(request: NextRequest) {
   try {
@@ -23,8 +24,8 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Email already registered' }, { status: 409 })
     }
 
-    // Simple base64 hash for demo purposes — NOT for production use
-    const passwordHash = Buffer.from(password).toString('base64')
+    // Hash password with bcrypt (cost factor 12)
+    const passwordHash = await bcrypt.hash(password, 12)
 
     const id = uuidv4()
     const { data: brand, error } = await db

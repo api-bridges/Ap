@@ -1,5 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server'
 import { supabaseAdmin } from '@/lib/supabase'
+import bcrypt from 'bcryptjs'
 
 export async function POST(request: NextRequest) {
   try {
@@ -21,9 +22,9 @@ export async function POST(request: NextRequest) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
-    // Verify password using base64 demo hash — NOT for production use
-    const passwordHash = Buffer.from(password).toString('base64')
-    if (brand.password_hash !== passwordHash) {
+    // Verify password using constant-time bcrypt comparison
+    const passwordMatch = await bcrypt.compare(password, brand.password_hash)
+    if (!passwordMatch) {
       return NextResponse.json({ error: 'Invalid credentials' }, { status: 401 })
     }
 
